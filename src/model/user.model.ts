@@ -10,7 +10,7 @@ import argon2 from "argon2";
 import log from "../utils/logger";
 
 @pre<User>("save", async function () {
-  if (!this.isModified("password")) {
+  if (!this.isModified("mPin")) {
     return;
   }
   const hash = await argon2.hash(this.mPin);

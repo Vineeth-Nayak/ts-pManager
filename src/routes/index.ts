@@ -1,6 +1,7 @@
 import express from "express";
+import user from "./user.routes";
+
 const router = express.Router();
-const user = require("./user.routes");
 
 router.use("/api/user", user);
 

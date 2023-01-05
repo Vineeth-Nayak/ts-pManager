@@ -3,9 +3,12 @@ import express, { Request, Response } from "express";
 import config from "config";
 import connectToDb from "./utils/connectToDb";
 import log from "./utils/logger";
-
-const port = process.env.PORT || config.get("port") || 5000;
+import router from "./routes";
+const port = process.env.PORT || config.get<number>("port") || 5000;
 const app = express();
+
+app.use(express.json());
+app.use(router);
 
 app.get("/", (req: Request, res: Response) => {
   return res.send("Hello World");
