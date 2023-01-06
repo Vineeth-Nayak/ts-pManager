@@ -9,8 +9,10 @@ export async function createUserHandler(
   const body = req.body;
   try {
     const user = await createUser(body);
+    // user exists
     if (user === false)
       return res.status(409).json({ msg: "Account already exists" });
+
     return res.json({ msg: "User created sucessfully " });
   } catch (e: any) {
     // 409 is invalid
