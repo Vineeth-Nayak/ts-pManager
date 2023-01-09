@@ -4,7 +4,7 @@ export const createUserSchema = object({
   body: object({
     phoneNumber: string({
       required_error: "Phone Number is required",
-    }).length(10, "Length of mpin should be exactly 10"),
+    }).length(10, "Length of phone number should be exactly 10"),
 
     mPin: string({
       required_error: "Mpin is required",
