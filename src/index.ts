@@ -4,10 +4,12 @@ import config from "config";
 import connectToDb from "./utils/connectToDb";
 import log from "./utils/logger";
 import router from "./routes";
+import deserializeUser from "./middleware/deserializeUser";
 const port = process.env.PORT || config.get<number>("port") || 5000;
 const app = express();
 
 app.use(express.json());
+app.use(deserializeUser); // adds user details when logged in
 app.use(router);
 
 app.get("/", (req: Request, res: Response) => {

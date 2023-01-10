@@ -20,7 +20,8 @@ export function signJwt(
 // generic T is created and it returns that T(decoded output) or null(incase of an error)
 export function verifyJwt<T>(
   token: string,
-  keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
+  // keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
+  keyName: "accessTokenPrivateKey" | "refreshTokenPrivateKey"
 ): T | null {
   const publicKey = Buffer.from(config.get<string>(keyName), "base64").toString(
     "ascii"

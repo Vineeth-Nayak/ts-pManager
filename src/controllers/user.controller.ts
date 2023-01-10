@@ -22,3 +22,7 @@ export async function createUserHandler(
     res.status(500).json({ err: e.errors });
   }
 }
+
+export async function getUserHandler(req: Request, res: Response) {
+  res.send(res.locals.user);
+}
