@@ -31,6 +31,9 @@ export class User {
   @prop({ maxlength: 4, minlength: 4, required: true })
   mPin: string;
 
+  @prop({})
+  refreshToken: string;
+
   async validateMPin(this: DocumentType<User>, candidateMPin: string) {
     try {
       return await argon2.verify(this.mPin, candidateMPin);

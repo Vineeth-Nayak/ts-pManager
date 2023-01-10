@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { CreateAuthInput } from "../schema/auth.schema";
-import { signAccessToken, signRefreshToken } from "../service/auth.service";
+import {
+  saveRefreshToken,
+  signAccessToken,
+  signRefreshToken,
+} from "../service/auth.service";
 import { createUser, findUserByPhoneNumber } from "../service/user.service";
 
 export async function loginUserHandler(
@@ -34,6 +38,8 @@ export async function loginUserHandler(
       userId: userFound._id,
       phoneNumber: userFound.phoneNumber,
     });
+
+    const saveRefresh = await saveRefreshToken(userFound._id, refreshToken);
 
     res.header("Authorization", "Bearer " + accessToken);
     res.header("Refresh-Token", refreshToken);
