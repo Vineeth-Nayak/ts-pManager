@@ -13,14 +13,14 @@ export function signJwt(
 
   return jwt.sign(object, signingKey, {
     ...(options && options),
-    algorithm: "RS256",
+    // algorithm: "RS256",
   });
 }
 
 // generic T is created and it returns that T(decoded output) or null(incase of an error)
 export function verifyJwt<T>(
   token: string,
-  keyName: "accessTokenPublicKey" | "accessTokenPublicKey"
+  keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
 ): T | null {
   const publicKey = Buffer.from(config.get<string>(keyName), "base64").toString(
     "ascii"

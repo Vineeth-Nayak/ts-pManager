@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CreateAuthInput } from "../schema/auth.schema";
-import { signAccessToken } from "../service/auth.service";
+import { signAccessToken, signRefreshToken } from "../service/auth.service";
 import { createUser, findUserByPhoneNumber } from "../service/user.service";
 
 export async function loginUserHandler(
@@ -19,12 +19,25 @@ export async function loginUserHandler(
     const isValidMpin = await userFound.validateMPin(mPin);
     if (!isValidMpin) return res.status(400).json({ message });
 
+    // generate access and refreshtoken
     const accessToken = await signAccessToken(
-      userFound._id,
-      userFound.phoneNumber
+      {
+        userId: userFound._id,
+        phoneNumber: userFound.phoneNumber,
+      }
+      // userFound._id,
+      // userFound.phoneNumber
+      // "1h"
     );
 
-    return res.json({ accessToken });
+    const refreshToken = await signRefreshToken({
+      userId: userFound._id,
+      phoneNumber: userFound.phoneNumber,
+    });
+
+    res.header("Authorization", "Bearer " + accessToken);
+    res.header("Refresh-Token", refreshToken);
+    return res.json({ message: "User Logged in Successfully" });
   } catch (e: any) {
     console.log(e);
     res.status(500).json({ err: e.errors });
